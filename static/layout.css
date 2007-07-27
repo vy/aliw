@@ -1,0 +1,413 @@
+/*
+ * Common Styles
+ */
+
+body {
+    background: #fff;
+    margin: 0;
+}
+
+img { border-width: 0px; }
+i { font-style: oblique; }
+
+body, h1, h2, h3, div, span, td, a, i, b {
+    font-family: arial, sans-serif;
+    letter-spacing: 0px;
+    color: #000;
+    font-size: 10pt;
+}
+
+p {
+    margin: 4px 0 12px 0;
+    padding: 0;
+    line-height: 1.5em;
+}
+
+
+/*
+ * top-bar
+ */
+
+#top-bar {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 84px;
+    background: url("/static/top-bar-bg.gif") top repeat-x;
+}
+
+#top-bar #title {
+    position: absolute;
+    padding: 32px 0 0 16px;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#top-bar #slogan {
+    position: absolute;
+    padding: 32px 0 0 128px;
+    color: #636363;
+    font-size: 8pt;
+}
+
+
+/*
+ * visited-paths
+ */
+
+#visited-paths {
+    position: absolute;
+    top: 38px;
+    right: 4px;
+    float: right;
+    text-align: right;
+}
+
+#visited-paths a {
+    text-decoration: none;
+    margin-left: 8px;
+    color: #bdbdbd;
+    font-style: oblique;
+    font-size: 8pt;
+}
+
+#visited-paths a:hover { color: #fff; }
+
+
+/*
+ * static-menu-paths
+ */
+
+#static-menu-paths {
+    position: absolute;
+    top: 53px;
+    right: 4px;
+    float: right;
+    text-align: right;
+}
+
+#static-menu-paths a {
+    text-decoration: none;
+    margin-left: 8px;
+    font-size: 10pt;
+}
+
+
+/*
+ * account-ops
+ */
+
+#account-ops {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    float: right;
+    text-align: right;
+    line-height: 10px;
+}
+
+#account-ops a {
+    text-decoration: none;
+    margin-left: 8px;
+    color: #636363;
+    font-size: 8pt;
+}
+
+#account-ops span {
+    color: #bdbdbd;
+    font-size: 8pt;
+    margin-left: 4px;
+}
+
+
+/*
+ * search-bar
+ */
+#search-box {
+    position: absolute;
+    float: right;
+    right: 4px;
+    text-align: right;
+    width: 100px;
+    height: 18px;
+    background: transparent;
+    font-family: arial, sans-serif;
+    letter-spacing: 0px;
+    font-size: 10pt;
+    color: #dbdbdb;
+    border: 1px solid #dbdbdb;
+    text-align: right;
+    padding: 2px;
+}
+
+
+/*
+ * edit-bar
+ */
+
+#edit-bar {
+    margin: 16px 0 8px 0;
+    width: 100%;
+    height: 33px;
+    padding: 0 4px 0 4px;
+    border-top: 1px solid #b8b8b8;
+    border-bottom: 1px solid #b8b8b8;
+    background: url("/static/edit-bar-bg.gif") top repeat-x;
+}
+
+#edit-bar td.info { font-style: oblique; font-size: 8pt; }
+#edit-bar td.actions { text-align: right; font-size: 8pt; }
+#edit-bar td.actions a.action { margin-left: 8px; font-size: 8pt; }
+
+
+/*
+ * content
+ */
+
+#content {
+    padding: 0 8px 8px 8px;
+    font-size: 10pt;
+}
+
+#content-title {
+    font-size: 24pt;
+    font-weight: bold;
+    padding: 0 0 8px 64px;
+}
+
+#content-action {
+    font-size: 16pt;
+    color: #b8b8b8;
+    vertical-align: top;
+}
+
+div.error-box {
+    border: 1px solid #b8b8b8;
+    background: url("/static/icon-error.gif") #ffe5e5 8px 8px no-repeat;
+    padding: 0 8px 8px 44px;
+    margin: 4px 0 8px 0;
+}
+
+div.warning-box {
+    border: 1px solid #aeaeae;
+    background: url("/static/icon-warning.gif") #efeec2 8px 8px no-repeat;
+    padding: 0px 8px 8px 30px;
+    margin: 4px 0 8px 0;
+}
+
+div.info-box {
+    border: 1px solid #aeaeae;
+    background: url("/static/icon-info.gif") #e0f6e2 8px 8px no-repeat;
+    padding: 0px 8px 8px 24px;
+    margin: 4px 0 8px 0;
+}
+
+div.error-box div.head,
+div.warning-box div.head,
+div.info-box div.head {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+table.normal { border: 1px solid #efefef; }
+table.normal th {
+    text-align: center;
+    background: url("/static/edit-bar-bg.gif") top repeat-x;
+    font-weight: bold;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+table.fancy { border: 1px solid #efefef; }
+table.fancy th {
+    text-align: center;
+    background: url("/static/edit-bar-bg.gif") top repeat-x;
+    font-weight: bold;
+    border-right: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+table.fancy sup, span.comment { font-size: 8pt; color: #ababab; }
+
+div.toc {
+    border: 1px solid #ababab;
+    background: #efefef;
+    padding: 4px;
+    margin: 4px 0 4px 4px;
+    float: right;
+}
+
+div.toc div.l1 { margin-left: 0; }
+div.toc div.l2 { margin-left: 12px; }
+div.toc div.l3 { margin-left: 24px; }
+
+div.toc div.title { font-weight: bold; padding-left: 32px; }
+div.toc span.enum { font-size: 7pt; margin-right: 4px; }
+div.toc a { text-decoration: none; }
+
+h1, h1 a, h2, h2 a, h3, h3 a {
+    font-weight: bold;
+    border-bottom: 1px dotted #ababab;
+    text-decoration: none;
+}
+h1 a:hover, h2 a:hover, h3 a:hover { background: inherit; }
+
+h1, h1 a { font-size: 18pt; }
+h2, h2 a { font-size: 16pt; }
+h3, h3 a { font-size: 14pt; }
+
+a.internal-not-existing, a.internal, a.external { text-decoration: none; }
+a.internal-not-existing { color: #cb0000; }
+a.internal { color: #0062f4; }
+a.external {
+    color: #0062f4;
+    padding-right: 12px;
+    background: url("/static/external-link.gif") right no-repeat;
+}
+
+ul.external-links { margin-top: 0; }
+
+
+/*
+ * history-table
+ */
+
+#history-table { }
+#history-table thead th {
+    background: url("/static/edit-bar-bg.gif") top repeat-x;
+    font-weight: bold;
+    border-right: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+#history-table tbody tr.odd { background: #f4f4f4; }
+#history-table tbody tr.even { background: #fff; }
+#history-table tbody td.rev-radio { width: .1em; text-align: center; }
+#history-table tbody td.rev { width: .1em; text-align: right; }
+#history-table tbody td.time,
+#history-table tbody td.committer { color: #bcbcbc; }
+#history-table tbody div.details { font-size: 7pt; color: #ababab; }
+#history-table tbody span.commit-general { }
+#history-table tbody span.commit-initial { font-weight: bold; color: #1cc300; }
+#history-table tbody span.commit-minor { color: #b5b5b5; }
+#history-table tbody span.commit-rename { font-style: oblique; color: #ff7200; }
+
+
+/*
+ * diff-table
+ */
+
+#diff-table {
+    position: inherit;
+    width: 100%;
+}
+
+#diff-table td { padding: 1px 2px 1px 2px; margin: 1px; }
+
+#diff-table tr th {
+    text-align: left;
+    padding-left: 16px;
+    font-weight: bold;
+    background: #f4f4f4;
+    border-right: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+}
+
+#diff-table, #diff-table td, #diff-table pre { font-size: 8pt; }
+
+#diff-table td.revold, #diff-table td.revnew {
+    background: #f4f4f4;
+    text-align: right;
+    width: 1%;
+}
+#diff-table tr.shared { }
+#diff-table td.removed { background: #f4bdbd; }
+#diff-table td.added { background: #cdeac5; }
+#diff-table td.content { /* font-family: courier, monoscape; */ }
+
+
+/*
+ * edit form
+ */
+
+#edit-text, #edit-log textarea {
+    font-family: courier, monoscape;
+    width: 100%;
+    font-size: 8pt;
+}
+
+#edit-text { height: 350px; }
+#edit-log textarea { height: 50px; }
+
+#edit-log span {
+    display: block;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+#create-prev, #edit-prev {
+    height: 400px;
+    overflow: auto;
+    border: 1px solid #ababab;
+    padding: 8px;
+    margin-bottom: 32px;
+}
+
+#edit-diff {
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #ababab;
+    padding: 8px;
+    margin-bottom: 32px;
+}
+
+#edit-view {
+    height: 250px;
+    overflow: auto;
+    border: 1px solid #ababab;
+    padding: 8px;
+}
+
+#create-data {
+    height: 325px;
+    font-family: courier, monoscape;
+    width: 100%;
+    font-size: 8pt;
+}
+
+table.image {
+    border: 1px solid #ababab;
+    padding: 4px;
+}
+
+table.image span {
+    font-size: 8pt;
+    font-style: oblique;
+}
+
+
+/*
+ * Search Results
+ */
+div.search-result span { font-weight: bold; }
+div.search-result table { border: 1px solid #efefef; width: 100%; }
+div.search-result table tr.odd { background: #f4f4f4; }
+div.search-result table tr.even { background: #fff; }
+div.search-result table td, div.search-result table b { font-size: 8pt; }
+
+/*
+ * C, CODE, T
+ */
+
+pre { font-family: courier, monoscape; font-size: 8pt; }
+pre.code {
+    border: 1px solid #ababab;
+    background: #f0f0f0;
+    padding: 8px;
+}
+tt { font-family: courier, monoscape; font-size: 8pt; }
+div.blockquote { margin-left: 64px; }

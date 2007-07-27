@@ -1,0 +1,18 @@
+- Paging support.
+  A generic paging interface should be implemented to display contents
+  that need to be displayed in more than one pages. (Search results,
+  recent changes, etc.)
+
+- New path types.
+  Despite ALIW API allows more than one path type to be introduced,
+  there is currently a single path type, `page'. There should be some
+  other built-in path types (e.g. `image' and `file') in the
+  ecosystem.
+
+- E-mail validation mechanism for new accounts.
+
+- Hierarchical user/group management.
+
+- Edit notification system.
+  Users that are subscribed to a certain page will get notified by the
+  modifications done to that page.

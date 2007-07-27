@@ -1,0 +1,99 @@
+ALIW currently supports most of the common markup syntax adopted by other popular wiki softwares. And we plan to extend the scala of available markup directives in the future. (ALIW uses [http://cliki.net/meta-sexp meta-sexp] LL(1) parser for its background parsing routines. And it's just a matter of minutes to introduce a new markup syntax to the parser and deploy it without any interruption to the wiki server.)
+
+
+= Inline Markup Directives =
+
+Inline markup directives are the markup elements that can be used within the body of block elements. (I hear you saying "Block elements? Wha?". Just be patient and see following paragraphs.)
+
+
+== Links ==
+
+There're two kinds of available linking directives (external and internal links) currently supported.
+
+ * `[[Main]]` -> [[Main]]
+ * `[[Main Entrance Page]]` -> [[Main Entrance Page]]
+
+You use `_` characters to represent spaces in the internal links.
+
+ * `[http://google.com/]` -> [http://google.com/]
+ * `[http://google.com/ Ask to Big Brother]` -> [http://google.com/ Ask to Big Brother]
+
+External links must begin with one of either `http://`, `https://` or `ftp://`prefixes.
+
+
+== Text Styles ==
+
+Below code is a small demonstration of the currently available text formatting styles:
+
+{{{''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ^superscript^, ,,subscript,,}}}
+
+produces
+
+''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ^superscript^, ,,subscript,,
+
+
+= Block Elements =
+
+Block elements are formatting directives that requires a preciding fresh line at the start.
+
+Any paragraph, except the listed block elements below, will be treated as a new paragraph.
+
+
+== Sectioning (Headers) ==
+
+Headers start with one of either `=`, `==` or `===` and ends with the respectively same element in the current line. (And requires a space character just before typing the title.)
+
+{{{= Level 1 =
+== Level 2 ==
+=== Level 3 ===
+}}}
+
+
+== Listing ==
+
+Listing elements '''requires''' a space character at the beginning and each entry of a list ends with a newline.
+
+{{{ * Unordered list item 1,
+ * Item 2,
+ * And item 3.
+
+ 1. Foo,
+ 2. Bar,
+ 3. Baz.
+
+ 4. Mini,
+ 5. Muni,
+ 6. Mooe.
+}}}
+
+produces
+
+ * Unordered list item 1,
+ * Item 2,
+ * And item 3.
+
+ 1. Foo,
+ 2. Bar,
+ 3. Baz.
+
+ 4. Mini,
+ 5. Muni,
+ 6. Mooe.
+
+ 
+== Blockquotes ==
+
+Block quotes starts with two space characters and ends at the end of line.
+
+{{{  Foo Bar Baz}}}
+
+produces
+
+  Foo Bar Baz
+
+
+= References =
+
+ * [http://en.wikipedia.org/wiki/Wikipedia:How_to_edit_a_page How to edit a page in wikipedia.]
+ * [http://trac.edgewall.org/wiki/WikiFormatting Trac wiki formatting guidelines.]
+ * [http://moinmoin.wikiwikiweb.de/HelpOnFormatting MoinMoin formatting help.]
