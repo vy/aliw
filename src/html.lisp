@@ -285,6 +285,13 @@ function validateCheckedRevs()
         return false;
     }
 
+    if (idxold < idxnew)
+    {
+        window.alert('Selected old revision number must be smaller then the '+
+                     'new revision number!')
+        return false;
+    }
+
     return true;
 }
 -->")
