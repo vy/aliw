@@ -53,6 +53,22 @@
   (:documentation "State storage unit between passes to parser rules and
   renderers."))
 
+(defmacro with-clean-parser-context ((ctx input old-attachment) &body body)
+  "Shortcut macro to create a new scope with a fresh PARSER-CONTEXT by
+preserving LINKS slot of the old and new attachments."
+  (with-unique-names (new-attachment)
+    `(let* ((,new-attachment
+             (make-instance
+              'context-attachment
+              :flags (context-attachment-flags ,old-attachment)))
+            (,ctx (create-parser-context
+                   ,input :attachment ,new-attachment))
+            (ret (progn ,@body)))
+       (setf (context-attachment-links ,old-attachment)
+             (nconc (context-attachment-links ,old-attachment)
+                    (context-attachment-links ,new-attachment)))
+       ret)))
+
 
 ;;; Renderers
 
@@ -95,12 +111,11 @@
   (let ((fn (intern (format nil "~:@(header~a!~)" level)))
         (tag (intern (format nil "~:@(h~a~)" level) :keyword)))
     `(define-html-renderer ,fn (header) (attachment)
-       (let ((text (inline-text?
-                    (create-parser-context
-                     header :attachment (make-instance 'context-attachment)))))
-         (htm (,tag (:a :name (encode-to-filename text) (str text))))
-         (if (member 'collect-headers (context-attachment-flags attachment))
-             (push (cons ,level text) (context-attachment-headers attachment)))))))
+       (with-clean-parser-context (ctx header attachment)
+         (let ((text (inline-text? ctx)))
+           (htm (,tag (:a :name (encode-to-filename text) (str text))))
+           (if (member 'collect-headers (context-attachment-flags attachment))
+               (push (cons ,level text) (context-attachment-headers attachment))))))))
 
 (define-header-renderer 1)
 (define-header-renderer 2)
@@ -109,41 +124,30 @@
 (define-html-renderer code! (code) ()
   (:pre :class "code" (esc code)))
 
-(define-html-renderer blockquote! (quote) ()
-  (:div :class "blockquote"
-        (str (inline-text?
-              (create-parser-context
-               quote :attachment (make-instance 'context-attachment))))))
+(define-html-renderer blockquote! (quote) (attachment)
+  (with-clean-parser-context (ctx quote attachment)
+    (htm (:div :class "blockquote" (str (inline-text? ctx))))))
 
-(define-html-renderer item-list! (list) ()
+(define-html-renderer item-list! (list) (attachment)
   (:ul
    (mapc
     #'(lambda (item)
-        (htm
-         (:li
-          (str
-           (inline-text?
-            (create-parser-context
-             item :attachment (make-instance 'context-attachment)))))))
+        (with-clean-parser-context (ctx item attachment)
+          (htm (:li (str (inline-text? ctx))))))
     list)))
 
-(define-html-renderer enum-list! (list &optional (start 1)) ()
+(define-html-renderer enum-list! (list &optional (start 1)) (attachment)
   (:ol
    :start (or start 1)
    (mapc
     #'(lambda (item)
-        (htm
-         (:li
-          (str
-           (inline-text?
-            (create-parser-context
-             item :attachment (make-instance 'context-attachment)))))))
+        (with-clean-parser-context (ctx item attachment)
+          (htm (:li (str (inline-text? ctx))))))
     list)))
 
-(define-html-renderer paragraph! (text) ()
-  (:p (str (inline-text?
-            (create-parser-context
-             text :attachment (make-instance 'context-attachment))))))
+(define-html-renderer paragraph! (text) (attachment)
+  (with-clean-parser-context (ctx text attachment)
+    (htm (:p (str (inline-text? ctx))))))
 
 
 ;;; Inline Rules
@@ -312,7 +316,7 @@
                              (wiki-content-referrers content)
                              :test #'string=)
                (push referrer (wiki-content-referrers content))
-               (wiki-content-referrers-update content))))) 
+               (wiki-content-referrers-update content)))))
 
 (defgeneric markup-to-html (input &key process-cross-links)
   (:documentation "Transforms supplied input in wiki markup syntax to HTML."))

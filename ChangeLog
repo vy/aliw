@@ -1,0 +1,21 @@
+0.1.1
+	* src/markup.lisp (with-clean-parser-context): While parsing
+	through a document, pass FLAGS slot of the current
+	CONTEXT-ATTACHMENT to the newly created contexts. Furthermore,
+	merge back the changes done to LINKS slot of the newly created
+	context.
+
+	* src/markup.lisp (strike? strike!): Introduce STRIKE/~~ tag to
+	markup transformers.
+
+	* contents/page#WikiMarkupSyntax: Add a new example using new
+	STRIKE/~~ facility.
+
+	* src/account-handler.lisp (account-create): Remove redundant
+	footnote anchors.
+
+	* src/html.lisp (display-content-history): Fix index checking of
+	the selected revisions.
+
+O.1.0
+	Initial import.
