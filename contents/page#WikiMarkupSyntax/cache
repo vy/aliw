@@ -1,0 +1,82 @@
+<div class='toc'><div class='title'>Contents</div><div class='l1'><span class='enum'>1.</span><a href='#Inline_Markup_Directives'>Inline Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Links'>Links</a></div><div class='l2'><span class='enum'>2.</span><a href='#Text_Styles'>Text Styles</a></div><div class='l1'><span class='enum'>2.</span><a href='#Block_Markup_Directives'>Block Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Sectioning_,40,Headers,41,'>Sectioning (Headers)</a></div><div class='l2'><span class='enum'>2.</span><a href='#Listing'>Listing</a></div><div class='l2'><span class='enum'>3.</span><a href='#Blockquotes'>Blockquotes</a></div><div class='l1'><span class='enum'>3.</span><a href='#References'>References</a></div></div><p>ALIW currently supports most of the common markup syntax adopted by other popular wiki softwares. And we plan to extend the scala of available markup directives in the future. (ALIW uses <a class='external' href='http://cliki.net/meta-sexp'>meta-sexp</a> LL(1) parser for its background parsing routines. And it's just a matter of minutes to introduce a new markup syntax to the parser and deploy it without any interruption to the wiki server.)</p>
+
+<h1><a name='Inline_Markup_Directives'>Inline Markup Directives</a></h1>
+
+<p>Inline markup directives are the markup elements that can be used within the body of block elements. (I hear you saying "Block elements? Wha?". Just be patient and see following paragraphs.)</p>
+
+<h2><a name='Links'>Links</a></h2>
+
+<p>There're two kinds of available linking directives (external and internal links) currently supported.</p>
+
+<ul><li><tt>[[Main]]</tt> -&gt; <a class='internal-not-existing' href='/page/Main'>Main</a></li><li><tt>[[Main Entrance Page]]</tt> -&gt; <a class='internal-not-existing' href='/page/Main'>Entrance Page</a></li></ul>
+
+<p>You use <tt>_</tt> characters to represent spaces in the internal links.</p>
+
+<ul><li><tt>[http://google.com/]</tt> -&gt; <a class='external' href='http://google.com/'>http://google.com/</a></li><li><tt>[http://google.com/ Ask to Big Brother]</tt> -&gt; <a class='external' href='http://google.com/'>Ask to Big Brother</a></li></ul>
+
+<p>External links must begin with one of either <tt>http://</tt>, <tt>https://</tt> or <tt>ftp://</tt>prefixes.</p>
+
+<h2><a name='Text_Styles'>Text Styles</a></h2>
+
+<p>Below code is a small demonstration of the currently available text formatting styles:</p>
+
+<pre class='code'>&#039;&#039;bold&#039;&#039;, &#039;&#039;&#039;italic&#039;&#039;&#039;, &#039;&#039;&#039;&#039;&#039;bold-italic&#039;&#039;&#039;&#039;&#039;, __underlined__, `monospace`, ~~striked~~, ^superscript^, ,,subscript,,</pre>
+
+<p>produces</p>
+
+<p><b>bold</b>, <i>italic</i>, <b><i>bold-italic</i></b>, <u>underlined</u>, <tt>monospace</tt>, <s>striked</s>, <sup>superscript</sup>, <sub>subscript</sub></p>
+
+<h1><a name='Block_Markup_Directives'>Block Markup Directives</a></h1>
+
+<p>Block markup directives are the markup elements that require a preciding fresh line at the start.</p>
+
+<p>Any paragraph, except the listed block elements below, will be treated as a new paragraph.</p>
+
+<h2><a name='Sectioning_,40,Headers,41,'>Sectioning (Headers)</a></h2>
+
+<p>Headers start with one of either <tt>=</tt>, <tt>==</tt> or <tt>===</tt> and ends with the respectively same element in the current line. (And requires a space character just before typing the title.)</p>
+
+<pre class='code'>= Level 1 =
+== Level 2 ==
+=== Level 3 ===
+</pre>
+
+<h2><a name='Listing'>Listing</a></h2>
+
+<p>Listing elements <i>requires</i> a space character at the beginning and each entry of a list ends with a newline.</p>
+
+<pre class='code'> * Unordered list item 1,
+ * Item 2,
+ * And item 3.
+
+ 1. Foo,
+ 2. Bar,
+ 3. Baz.
+
+ 4. Mini,
+ 5. Muni,
+ 6. Mooe.
+</pre>
+
+<p>produces</p>
+
+<ul><li>Unordered list item 1,</li><li>Item 2,</li><li>And item 3.</li></ul>
+
+<ol start='1'><li>Foo,</li><li>Bar,</li><li>Baz.</li></ol>
+
+<ol start='4'><li>Mini,</li><li>Muni,</li><li>Mooe.</li></ol>
+
+<h2><a name='Blockquotes'>Blockquotes</a></h2>
+
+<p>Block quotes starts with two space characters and ends at the end of line.</p>
+
+<pre class='code'>  Foo Bar Baz</pre>
+
+<p>produces</p>
+
+<div class='blockquote'>Foo Bar Baz</div>
+
+<h1><a name='References'>References</a></h1>
+
+<ul><li><a class='external' href='http://en.wikipedia.org/wiki/Wikipedia:How_to_edit_a_page'>How to edit a page in wikipedia.</a></li><li><a class='external' href='http://trac.edgewall.org/wiki/WikiFormatting'>Trac wiki formatting guidelines.</a></li><li><a class='external' href='http://moinmoin.wikiwikiweb.de/HelpOnFormatting'>MoinMoin formatting help.</a></li></ul>
+

@@ -32,9 +32,9 @@ produces
 ''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ~~striked~~, ^superscript^, ,,subscript,,
 
 
-= Block Elements =
+= Block Markup Directives =
 
-Block elements are formatting directives that requires a preciding fresh line at the start.
+Block markup directives are the markup elements that require a preciding fresh line at the start.
 
 Any paragraph, except the listed block elements below, will be treated as a new paragraph.
 

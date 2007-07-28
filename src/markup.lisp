@@ -283,16 +283,16 @@ preserving LINKS slot of the old and new attachments."
 ;;; Main Rules
 
 (defrule paragraph? (&aux (text (make-char-accum))) ()
-  (:+ (:not (:checkpoint (:and (:type newline?)
-                               (:type newline?))))
+  (:+ (:not (:checkpoint (:type newline?)
+                         (:type newline?)))
       (:char-push text))
   (:? (:type newline?)
       (:type newline?))
   (:render paragraph! text))
 
 (defrule document? () (attachment)
-  (:* (:* (:checkpoint (:and (:* (:type white-space?))
-                             (:type newline?))))
+  (:* (:* (:checkpoint (:* (:type white-space?))
+                       (:type newline?)))
       (:not (:eof))
       (:rule (or block-element? paragraph?))
       (write-string #.(format nil "~%~%")
