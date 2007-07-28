@@ -399,10 +399,6 @@ div.search-result table tr.odd { background: #f4f4f4; }
 div.search-result table tr.even { background: #fff; }
 div.search-result table td, div.search-result table b { font-size: 8pt; }
 
-/*
- * C, CODE, T
- */
-
 pre { font-family: courier, monoscape; font-size: 8pt; }
 pre.code {
     border: 1px solid #ababab;
@@ -411,3 +407,9 @@ pre.code {
 }
 tt { font-family: courier, monoscape; font-size: 8pt; }
 div.blockquote { margin-left: 64px; }
+
+div.referrers {
+    padding: 8px;
+    background: #fffff3;
+    border: 1px solid #e2e3b6;
+}
