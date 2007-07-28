@@ -25,11 +25,11 @@ External links must begin with one of either `http://`, `https://` or `ftp://`pr
 
 Below code is a small demonstration of the currently available text formatting styles:
 
-{{{''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ^superscript^, ,,subscript,,}}}
+{{{''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ~~striked~~, ^superscript^, ,,subscript,,}}}
 
 produces
 
-''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ^superscript^, ,,subscript,,
+''bold'', '''italic''', '''''bold-italic''''', __underlined__, `monospace`, ~~striked~~, ^superscript^, ,,subscript,,
 
 
 = Block Elements =

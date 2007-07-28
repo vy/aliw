@@ -87,6 +87,7 @@
 (define-html-renderer bold! (text) () (:b (esc text)))
 (define-html-renderer underline! (text) () (:u (esc text)))
 (define-html-renderer monospace! (text) () (:tt (esc text)))
+(define-html-renderer strike! (text) () (:s (esc text)))
 (define-html-renderer superscript! (text) () (:sup (esc text)))
 (define-html-renderer subscript! (text) () (:sub (esc text)))
 
@@ -188,12 +189,13 @@
 (define-text-rule bold? "''" bold!)
 (define-text-rule underline? "__" underline!)
 (define-text-rule monospace? "`" monospace!)
+(define-text-rule strike? "~~" strike!)
 (define-text-rule superscript? "^" superscript!)
 (define-text-rule subscript? ",," subscript!)
 
 (defrule inline-element? () ()
   (:rule (or internal-link? external-link? bold-italic? italic? bold?
-             underline? monospace? superscript? subscript?)))
+             underline? monospace? strike? superscript? subscript?)))
 
 (defrule inline-text? (&aux c) (attachment)
   (:* (:or (:rule inline-element?)
