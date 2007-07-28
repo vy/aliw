@@ -453,13 +453,13 @@ function validateForm() {
           :class "fancy"
           (:tr (:th :colspan "3" "New Account Preferences"))
           (:tr
-           (:td "Username" (:sup "1"))
+           (:td "Username")
            (:td ":")
            (:td (:input :type "text" :name "username"
                                      :maxlength (form-field-max-len :username)
                                      :value (str username))))
           (:tr
-           (:td "Password" (:sup "2"))
+           (:td "Password")
            (:td ":")
            (:td (:input :type "password" :name "password1"
                                          :maxlength (form-field-max-len :password))))
@@ -469,7 +469,7 @@ function validateForm() {
            (:td (:input :type "password" :name "password2"
                                          :maxlength (form-field-max-len :password))))
           (:tr
-           (:td "E-Mail" (:sup "3"))
+           (:td "E-Mail")
            (:td ":")
            (:td (:input :type "text" :name "email"
                                      :maxlength (form-field-max-len :email)
