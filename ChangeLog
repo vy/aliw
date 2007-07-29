@@ -1,3 +1,18 @@
+0.1.2
+	* src/account-handler.lisp (account-create account-sign-in):
+	Removing annoying footnotes in SingIn page. After an account is
+	created, sign it in and then redirect client to last visited
+	content page. (No need to request sign in from a newly created
+	account.)
+
+	* src/wiki.lisp (hunchentoot:*session-max-time*): Increased
+	*SESSION-MAX-TIME* to 7200 seconds (2 hours) from 1800 seconds (30
+	minutes).
+
+	* src/markup.lisp (internal-link!): Use :PRETTY representation to
+	print internal links. (This solves the problems with page names
+	that include `_' character.)
+
 0.1.1
 	* src/markup.lisp (with-clean-parser-context): While parsing
 	through a document, pass FLAGS slot of the current
