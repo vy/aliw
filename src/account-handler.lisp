@@ -43,8 +43,7 @@
   (if (wiki-account-signed-in-p)
       (parametrized-redirect (last-visited-content-path) :already-signed-in t))
   (with-http-parameters (:default-request-type :post)
-      ((account-created :parameter-type 'boolean :request-type :get)
-       (authreq :parameter-type 'boolean)
+      ((authreq :parameter-type 'boolean)
        username password)
     (let (sign-in-failed)
       ;; Evaluate any authentication request.
@@ -55,16 +54,6 @@
             (parametrized-redirect (last-visited-content-path) :signed-in t)
             (setq sign-in-failed t)))
       (with-html-template ()
-        ;; Welcome new user.
-        (if account-created
-            (htm
-             (:div
-              :class "info-box"
-              (:div :class "head" "Account Created Successfully")
-              (:div
-               :class "body"
-               "Your new account is created successfully. Now you can sign in with
-             your new account username and password."))))
         ;; Have we just had a failed sign in attempt?
         (if sign-in-failed
             (htm
@@ -113,14 +102,14 @@ below form and press to " (:i "Sign In") " button to continue."
           :class "fancy"
           (:tr (:th :colspan "3" "Sign In Form"))
           (:tr
-           (:td "Username" (:sup "1"))
+           (:td "Username")
            (:td ":")
            (:td (:input :type "text"
                         :name "username"
                         :maxlength (form-field-max-len :username)
                         :value (str username))))
           (:tr
-           (:td "Password" (:sup "2"))
+           (:td "Password")
            (:td ":")
            (:td (:input :type "password"
                         :maxlength (form-field-max-len :password)
@@ -129,16 +118,7 @@ below form and press to " (:i "Sign In") " button to continue."
            (:td
             :style "text-align: center"
             :colspan "3"
-            (:input :type "submit" :name "authreq" :value "Sign In"))))
-         (:p (:sup "1")
-             (:span :class "comment"
-                    (fmt " (Minimum ~a characters are required.)"
-                         (form-field-min-len :username)))
-             (:br)
-             (:sup "2")
-             (:span :class "comment"
-                    (fmt " (Minimum ~a characters are required.)"
-                         (form-field-min-len :password)))))))))
+            (:input :type "submit" :name "authreq" :value "Sign In")))))))))
 
 (defun account-sign-out ()
   "account:SignOut handler."
@@ -369,8 +349,9 @@ function enablePassForms() {
                    (push :account-exists failed-parts))
                   (t
                    (wiki-account-create account)
+                   (wiki-account-sign-in username password1)
                    (parametrized-redirect
-                    (wiki-path-from :label "account:SignIn")
+                    (last-visited-content-path)
                     :account-created t)))))))
       (with-html-template ()
         ;; Did everything go ok during account creation?
@@ -440,6 +421,7 @@ function validateForm() {
     }
 
     return true;
+}
 -->"
               (form-field-min-len :username)
               (form-field-min-len :password)

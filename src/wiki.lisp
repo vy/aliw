@@ -45,7 +45,8 @@
  hunchentoot:*show-lisp-backtraces-p* t
  
  hunchentoot:*use-user-agent-for-sessions* t
- hunchentoot:*use-remote-addr-for-sessions* t)
+ hunchentoot:*use-remote-addr-for-sessions* t
+ hunchentoot:*session-max-time* 7200)
 
 
 ;;; Configure web server dispatch table.

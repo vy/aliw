@@ -187,8 +187,18 @@ function clearSearchInput() {
   "Display common warning messages passed to content pages via HTTP GET
 variables."
   (with-http-parameters (:default-request-type :get :default-parameter-type 'boolean)
-      (is-fresh already-signed-in signed-in isnt-signed-in signed-out edit-done)
+      (is-fresh already-signed-in signed-in isnt-signed-in signed-out edit-done
+      account-created)
     (with-html ()
+      ;; Welcome new user.
+      (if account-created
+          (htm
+           (:div
+            :class "info-box"
+            (:div :class "head" "Account Created Successfully")
+            (:div
+             :class "body"
+             "Your new account is created and you signed in successfully."))))
       ;; Are we about to handle a newly created page?
       (if is-fresh
           (htm
