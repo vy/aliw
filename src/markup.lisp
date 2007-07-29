@@ -86,7 +86,9 @@ preserving LINKS slot of the old and new attachments."
                     "internal"
                     "internal-not-existing")
          :href (wiki-path-to :uri path)
-         (esc (if (empty-char-accum-p text) label text))))
+         (esc (if (empty-char-accum-p text)
+                  (wiki-path-to :pretty path)
+                  text))))
     (if (member 'collect-links (context-attachment-flags attachment))
         (push (wiki-path-to :label path)
               (context-attachment-links attachment)))))
