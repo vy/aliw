@@ -187,8 +187,10 @@ in a URI. \(Parameter processing is case-insensitive.)"
   "Transforms supplied WIKI-PATH object into its URI form."
   (with-slots (type list parameters) path
     (format nil "/~a/~{~a~^/~}~:[~;~:*?~{~a=~a~^&~}~]"
-            (string-downcase (symbol-name type)) list
-            (stringify-wiki-path-parameters parameters))))
+            (string-downcase (symbol-name type))
+            (mapcar #'hunchentoot:url-encode list)
+            (mapcar #'hunchentoot:url-encode
+                    (stringify-wiki-path-parameters parameters)))))
 
 (defmethod wiki-path-from ((from (eql :filename)) (filename string))
   "Creates a fresh WIKI-PATH instance from the supplied FILENAME.
