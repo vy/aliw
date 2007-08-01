@@ -2,6 +2,10 @@
 	* src/wiki.lisp: Turn HUNCHENTOOT:*REWRITE-FOR-SESSION-URLS* off
 	to avoid it breaking links to anchors.
 
+	* src/markup.lisp (remove-abolished-references): Introduce new
+	function to remove abolished references remained from a previous
+	revision.
+
 0.1.2
 	* src/account-handler.lisp (account-create account-sign-in):
 	Removing annoying footnotes in SingIn page. After an account is
