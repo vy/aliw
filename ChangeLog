@@ -1,3 +1,7 @@
+0.1.3
+	* src/wiki.lisp: Turn HUNCHENTOOT:*REWRITE-FOR-SESSION-URLS* off
+	to avoid it breaking links to anchors.
+
 0.1.2
 	* src/account-handler.lisp (account-create account-sign-in):
 	Removing annoying footnotes in SingIn page. After an account is

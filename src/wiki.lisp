@@ -46,6 +46,7 @@
  
  hunchentoot:*use-user-agent-for-sessions* t
  hunchentoot:*use-remote-addr-for-sessions* t
+ hunchentoot:*rewrite-for-session-urls* nil
  hunchentoot:*session-max-time* 7200)
 
 
