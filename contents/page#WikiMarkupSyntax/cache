@@ -1,4 +1,4 @@
-<div class='toc'><div class='title'>Contents</div><div class='l1'><span class='enum'>1.</span><a href='#Inline_Markup_Directives'>Inline Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Links'>Links</a></div><div class='l2'><span class='enum'>2.</span><a href='#Text_Styles'>Text Styles</a></div><div class='l1'><span class='enum'>2.</span><a href='#Block_Markup_Directives'>Block Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Sectioning_,40,Headers,41,'>Sectioning (Headers)</a></div><div class='l2'><span class='enum'>2.</span><a href='#Listing'>Listing</a></div><div class='l2'><span class='enum'>3.</span><a href='#Blockquotes'>Blockquotes</a></div><div class='l1'><span class='enum'>3.</span><a href='#References'>References</a></div></div><p>ALIW currently supports most of the common markup syntax adopted by other popular wiki softwares. And we plan to extend the scala of available markup directives in the future. (ALIW uses <a class='external' href='http://cliki.net/meta-sexp'>meta-sexp</a> LL(1) parser for its background parsing routines. And it's just a matter of minutes to introduce a new markup syntax to the parser and deploy it without any interruption to the wiki server.)</p>
+<div class='toc'><div class='title'>Contents</div><div class='l1'><span class='enum'>1.</span><a href='#Inline_Markup_Directives'>Inline Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Links'>Links</a></div><div class='l2'><span class='enum'>2.</span><a href='#Text_Styles'>Text Styles</a></div><div class='l1'><span class='enum'>2.</span><a href='#Block_Markup_Directives'>Block Markup Directives</a></div><div class='l2'><span class='enum'>1.</span><a href='#Sectioning_,40,Headers,41,'>Sectioning (Headers)</a></div><div class='l2'><span class='enum'>2.</span><a href='#Listing'>Listing</a></div><div class='l2'><span class='enum'>3.</span><a href='#Preformatted_Text'>Preformatted Text</a></div><div class='l2'><span class='enum'>4.</span><a href='#Blockquotes'>Blockquotes</a></div><div class='l1'><span class='enum'>3.</span><a href='#References'>References</a></div></div><p>ALIW currently supports most of the common markup syntax adopted by other popular wiki softwares. And we plan to extend the scala of available markup directives in the future. (ALIW uses <a class='external' href='http://cliki.net/meta-sexp'>meta-sexp</a> LL(1) parser for its background parsing routines. And it's just a matter of minutes to introduce a new markup syntax to the parser and deploy it without any interruption to the wiki server.)</p>
 
 <h1><a name='Inline_Markup_Directives'>Inline Markup Directives</a></h1>
 
@@ -65,6 +65,16 @@
 <ol start='1'><li>Foo,</li><li>Bar,</li><li>Baz.</li></ol>
 
 <ol start='4'><li>Mini,</li><li>Muni,</li><li>Mooe.</li></ol>
+
+<h2><a name='Preformatted_Text'>Preformatted Text</a></h2>
+
+<p>Preformatted text blocks go between <tt>{{{</tt> and <tt>}}}</tt> tags.</p>
+
+<p><tt>{{{Preformatted text sample. (Behaves similar to PRE element of HTML.)}}}</tt></p>
+
+<p>produces</p>
+
+<pre class='code'>Preformatted text sample. (Behaves similar to PRE element of HTML.)</pre>
 
 <h2><a name='Blockquotes'>Blockquotes</a></h2>
 

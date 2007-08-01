@@ -80,6 +80,17 @@ produces
  5. Muni,
  6. Mooe.
 
+
+== Preformatted Text ==
+
+Preformatted text blocks go between `{{{` and `}}}` tags.
+
+`{{{Preformatted text sample. (Behaves similar to PRE element of HTML.)}}}`
+
+produces
+
+{{{Preformatted text sample. (Behaves similar to PRE element of HTML.)}}}
+
  
 == Blockquotes ==
 
