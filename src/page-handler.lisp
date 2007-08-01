@@ -60,29 +60,40 @@
 (defun page-content-not-found ()
   "`page:ContentNotFound' wiki path handler."
   (with-http-parameters (:default-request-type :get)
-      (path)
-    (with-html-template ()
-      (:div
-       :class "error-box"
-       (:div :class "head" "Content Not Found!")
-       (:div
-        :class "body"
-        (:p "The page you are trying to view cannot be found.")
-        (if path
-            (htm
-             (:p (:u "Error Context:"))
-             (:pre "Path: "
-                   (str (wiki-path-from-to :label path :uri)))))))
-      (if path
-          (htm
-           (:form
-            :action (wiki-path-from-to :label path :uri)
-            :method "get"
-            (:input :type "hidden" :name "action" :value "create")
-            "You can use below form to create this page."
-            (:div
-             (:input :type "text" :id "uri" :value path :style "width: 250px")
-             "&nbsp;" (:input :type "submit" :value "Create New Page"))))))))
+      ((create :parameter-type 'boolean)
+       path)
+    (if (and create path)
+        ;; Evaluate page create request.
+        (parametrized-redirect
+         (wiki-path-from :label path)
+         :action "create")
+        ;; Display form.
+        (with-html-template ()
+          (:div
+           :class "error-box"
+           (:div :class "head" "Content Not Found!")
+           (:div
+            :class "body"
+            (:p "The page you are trying to view cannot be found.")
+            (if path
+                (htm
+                 (:p (:u "Error Context:"))
+                 (:pre "Path: "
+                       (str (wiki-path-from-to :label path :uri)))))))
+          (if path
+              (htm
+               (:form
+                :action (wiki-path-to :uri (current-wiki-path))
+                :method "get"
+                (:input :type "hidden" :name "create" :value t)
+                "You can use below form to create this page."
+                (:div
+                 (:input :type "text"
+                         :id "uri"
+                         :name "path"
+                         :value path
+                         :style "width: 250px")
+                 "&nbsp;" (:input :type "submit" :value "Create New Page")))))))))
 
 (defun page-operation-not-found ()
   "`Page:OperationNotFound' wiki path handler."

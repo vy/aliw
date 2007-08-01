@@ -6,6 +6,9 @@
 	function to remove abolished references remained from a previous
 	revision.
 
+	* src/page-handler.lisp (page-content-not-found): Fix form to
+	submit page creation request for value in input box.
+
 0.1.2
 	* src/account-handler.lisp (account-create account-sign-in):
 	Removing annoying footnotes in SingIn page. After an account is
