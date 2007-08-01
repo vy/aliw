@@ -303,13 +303,13 @@ preserving LINKS slot of the old and new attachments."
 
 ;;; External Interface Routines
 
-(defun write-cross-links (links &optional (referrer (current-wiki-path)))
+(defun write-cross-links (links)
   "Write on-disk data of the cross LINKS using specified REFERRER."
-  (loop with referrer = (wiki-path-to :label referrer)
-        for referee in (delete-duplicates links :test #'string=)
+  (loop with referrer = (wiki-path-to :label (current-wiki-path))
+        for referee in links
         do (let ((content (wiki-content-from :label referee)))
              ;; Ensure WIKI-CONTENT skeleton exists.
-             (unless (wiki-content-referrers-exist-p content)
+             (if (not (wiki-content-referrers-exist-p content))
                (ensure-wiki-content-on-disk-layout content))
              ;; Append cross link to referrers list.
              (unless (member referrer
@@ -319,6 +319,40 @@ preserving LINKS slot of the old and new attachments."
                              :test #'string=)
                (push referrer (wiki-content-referrers content))
                (wiki-content-referrers-update content)))))
+
+(defun remove-abolished-references (current-links)
+  "Removes abolished references remained from the previous revision, if any."
+  (let ((curr-content (current-wiki-content)))
+    ;; If this an initial import, we don't to bother.
+    (if (wiki-content-exists-p curr-content)
+      (let* ((curr-revision (wiki-content-revision curr-content))
+             (prev-content
+              (wiki-content-from :path (wiki-content-path curr-content)
+                                 (1- curr-revision)))
+             (attachment (make-instance
+                          'context-attachment
+                          :output (make-broadcast-stream)
+                          :flags (list 'collect-links)))
+             (referrer (wiki-path-to :label (current-wiki-path))))
+        ;; Parse file to collect links in the previous revision.
+        (document?
+         (create-parser-context
+          (wiki-content-data-string prev-content)
+          :attachment attachment))
+        (mapc
+         #'(lambda (referee)
+             (let ((referee-content (wiki-content-from :label referee)))
+               (when (and (wiki-content-referrers-exist-p referee-content)
+                          (member referrer
+                                  (wiki-content-referrers referee-content)
+                                  :test #'string=))
+                 (setf (wiki-content-referrers referee-content)
+                       (remove referrer (wiki-content-referrers referee-content)
+                               :test #'string=))
+                 (wiki-content-referrers-update referee-content))))
+         ;; Collect references that do not exist anymore.
+         (set-difference (context-attachment-links attachment) current-links
+                         :test #'string=))))))
 
 (defgeneric markup-to-html (input &key process-cross-links)
   (:documentation "Transforms supplied input in wiki markup syntax to HTML."))
@@ -361,7 +395,10 @@ preserving LINKS slot of the old and new attachments."
     ;; Make second trip.
     (document? (create-parser-context input :attachment attachment))
     (if process-cross-links
-        (write-cross-links (context-attachment-links attachment)))
+        (let ((links (delete-duplicates (context-attachment-links attachment)
+                                        :test #'string=)))
+          (write-cross-links links)
+          (remove-abolished-references links)))
     (get-output-stream-string (context-attachment-output attachment))))
 
 (defmethod markup-to-html ((input wiki-content) &key process-cross-links)
