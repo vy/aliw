@@ -261,8 +261,7 @@ variables."
              :class "body"
              (:p "New content has been committed succesfully."))))))))
 
-(defun display-content-history
-    (changes &key has-paths has-diff-form has-indices (start-indice 1))
+(defun display-content-history (changes &key has-paths has-diff-form)
   "Common utility function to display history of a content."
   (with-html ()
     (if changes
@@ -315,7 +314,6 @@ function validateCheckedRevs()
            ;; Table of changes.
            (:thead
             (:tr
-             (if has-indices (htm (:th "No.")))
              (if has-diff-form
                  (htm
                   (:th "Old")
@@ -325,52 +323,52 @@ function validateCheckedRevs()
              (:th "Type" (:sup "*"))
              (:th "Edit&nbsp;Summary")))
            (:tbody
-            (mapc
-             #'(lambda (change &aux (indice (1- (incf start-indice))))
-                 (destructuring-bind
-                       (&key path revision timestamp account type message) change
-                   (htm
-                    (:tr
-                     :class (if (oddp indice) "odd" "even")
-                     (if has-indices (htm (:td (str indice))))
-                     (if has-diff-form
-                         (htm
-                          (:td :class "rev-radio"
-                               (:input :type "radio" :name "revold" :value revision))
-                          (:td :class "rev-radio"
-                               (:input :type "radio" :name "revnew" :value revision))))
-                     (:td :class "rev"
-                          (:a :href (wiki-path-to
-                                     :uri (parametrize-wiki-path path :rev revision))
-                              (str revision)))
-                     (:td :class "time"
-                          (str (cl-ppcre:regex-replace-all
-                                " " (universal-time-timestamp timestamp) "&nbsp;")))
-                     (:td :style "text-align: center"
-                          (case type
-                            (:initial (htm (:span :class "commit-initial" "I")))
-                            (:minor (htm (:span :class "commit-minor" "M")))
-                            (:rename (htm (:span :class "commit-rename" "R")))
-                            (t (htm (:span :class "commit-general" "G")))))
-                     (:td
-                      :width "100%"
-                      (:div :class "details"
-                            (if has-paths
-                                (htm
-                                 (:a :class "internal"
-                                     :href (wiki-path-to :uri path)
-                                     (str (wiki-path-to :label path)))
-                                 (fmt " committed by ~a ~a."
-                                      (escape-string account)
-                                      (universal-time-age timestamp)))
-                                (fmt "Committed by ~a ~a."
-                                     (escape-string account)
-                                     (universal-time-age timestamp))))
-                      (:div :class "message"
-                            (if (< (length message) 2)
-                                (str "N/A")
-                                (esc message))))))))
-             changes)))
+            (let ((indice 0))
+              (mapc
+               #'(lambda (change)
+                   (destructuring-bind
+                         (&key path revision timestamp account type message) change
+                     (htm
+                      (:tr
+                       :class (if (oddp (incf indice)) "odd" "even")
+                       (if has-diff-form
+                           (htm
+                            (:td :class "rev-radio"
+                                 (:input :type "radio" :name "revold" :value revision))
+                            (:td :class "rev-radio"
+                                 (:input :type "radio" :name "revnew" :value revision))))
+                       (:td :class "rev"
+                            (:a :href (wiki-path-to
+                                       :uri (parametrize-wiki-path path :rev revision))
+                                (str revision)))
+                       (:td :class "time"
+                            (str (cl-ppcre:regex-replace-all
+                                  " " (universal-time-timestamp timestamp) "&nbsp;")))
+                       (:td :style "text-align: center"
+                            (case type
+                              (:initial (htm (:span :class "commit-initial" "I")))
+                              (:minor (htm (:span :class "commit-minor" "M")))
+                              (:rename (htm (:span :class "commit-rename" "R")))
+                              (t (htm (:span :class "commit-general" "G")))))
+                       (:td
+                        :width "100%"
+                        (:div :class "details"
+                              (if has-paths
+                                  (htm
+                                   (:a :class "internal"
+                                       :href (wiki-path-to :uri path)
+                                       (str (wiki-path-to :label path)))
+                                   (fmt " committed by ~a ~a."
+                                        (escape-string account)
+                                        (universal-time-age timestamp)))
+                                  (fmt "Committed by ~a ~a."
+                                       (escape-string account)
+                                       (universal-time-age timestamp))))
+                        (:div :class "message"
+                              (if (< (length message) 2)
+                                  (str "N/A")
+                                  (esc message))))))))
+               changes))))
           ;; Explanation of commit type letters.
           (:div
            (:sup "*") "&nbsp;"

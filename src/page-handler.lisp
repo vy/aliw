@@ -148,8 +148,7 @@
                   :revision (wiki-content-revision content))
             (wiki-content-log content)))
        *recently-changed-contents*)
-      :has-paths t
-      :has-indices t))))
+      :has-paths t))))
 
 (defun page-search ()
   "`page:Search' wiki path handler."
