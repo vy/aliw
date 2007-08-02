@@ -7,7 +7,15 @@
 	revision.
 
 	* src/page-handler.lisp (page-content-not-found): Fix form to
-	submit page creation request for value in input box.
+	submit right page creation request for value in input box.
+
+	* src/util.lisp (neutralize-montezuma-input): Introduced a
+	format-independent wrapper function to neutralize strings passed
+	to montezuma functions. (This adhoc conversion exists because of
+	a serious bug related with extended characters in montezuma.)
+
+	* src/path.lisp (wiki-path-to): Filter parameters passed
+	to (WIKI-PATH-TO :URI PATH) through HUNCHENTOOT:URL-ENCODE.
 
 0.1.2
 	* src/account-handler.lisp (account-create account-sign-in):
