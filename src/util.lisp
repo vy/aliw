@@ -163,7 +163,9 @@ lines. \(Newline characters will get omitted.)"))
            ;; FLEXI-STREAMS:STRING-TO-OCTETS does not return a
            ;; specialized array. We need to coerce it first to be able
            ;; to pass it to MD5-SEQUENCE.
-           (coerce (flexi-streams:string-to-octets input)
+           (coerce (flexi-streams:string-to-octets
+                    input
+                    :external-format hunchentoot:*hunchentoot-default-external-format*)
                    '(simple-array flexi-streams:octet (*))))
           do (format out "~2,'0x" code))))
 
@@ -461,6 +463,29 @@ format."
    (cl-ppcre:split
     (make-string 1 :initial-element separator-char)
     filename)))
+
+
+;;; Montezuma Helper Functions
+
+(defun neutralize-montezuma-input (input)
+  "Neutralizes supplied INPUT to be safely-passed to montezuma functions. \(This
+hack exists because of a bug related with extended character handling in
+Montezuma.)"
+  (with-output-to-string (out)
+    (loop with octets =
+          (flexi-streams:string-to-octets
+           input :external-format hunchentoot:*hunchentoot-default-external-format*)
+          with prev-was-alnum
+          for octet across octets
+          for char = (code-char octet)
+          do (cond
+               ((alphanumericp char)
+                (write-char char out)
+                (setq prev-was-alnum t))
+               (t
+                (if prev-was-alnum
+                    (write-char #\space out))
+                (setq prev-was-alnum nil))))))
 
 
 ;;; Unclassified Functions

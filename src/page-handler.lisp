@@ -176,12 +176,7 @@
             (montezuma:search-each
              *content-index*
              (format nil "content:\"~{~a~^ ~}\""
-                     (mapcar
-                      #'(lambda (token)
-                          (escape-string
-                           token
-                           :test #'(lambda (char) (find char "\""))))
-                      tokens))
+                     (mapcar #'neutralize-montezuma-input tokens))
              #'(lambda (doc-num score)
                  (push (cons doc-num score) results)))
             ;; Display returned results.
@@ -191,7 +186,11 @@
                         (score (cdr result))
                         (doc (montezuma:get-document *content-index* doc-num))
                         (title (montezuma:document-value doc "title"))
-                        (content (montezuma:document-value doc "content"))
+                        (content
+                         (let ((content (wiki-content-from :label title)))
+                           (if (wiki-content-exists-p content)
+                               (wiki-content-data-string content)
+                               (montezuma:document-value doc "content"))))
                         ranges)
                    (htm
                     (:div
@@ -317,7 +316,7 @@
             ;; Check if an index already exists for current page.
             (montezuma:search-each
              *content-index*
-             (format nil "title:\"~a\"" label)
+             (format nil "title:\"~a\"" (neutralize-montezuma-input label))
              #'(lambda (doc score)
                  (declare (ignore score))
                  (setq doc-num doc)))
@@ -327,8 +326,8 @@
             ;; Add new content to index.
             (montezuma:add-document-to-index
              *content-index*
-             (list (cons "title" label)
-                   (cons "content" data))))
+             (list (cons "title" (neutralize-montezuma-input label))
+                   (cons "content" (neutralize-montezuma-input data)))))
           (parametrized-redirect (current-wiki-path) :edit-done t))
         ;; Evaluate any preview request.
         (if prevreq
@@ -617,7 +616,8 @@
                    (montezuma:search-each
                     *content-index*
                     (format nil "title:\"~a\""
-                            (wiki-path-to :label (current-wiki-path)))
+                            (neutralize-montezuma-input
+                             (wiki-path-to :label (current-wiki-path))))
                     #'(lambda (doc score)
                         (declare (ignore score))
                         (setq doc-num doc)))
@@ -625,9 +625,13 @@
                        (montezuma:delete-document *content-index* doc-num)))
                  (montezuma:add-document-to-index
                   *content-index*
-                  (list (cons "title" (wiki-path-to
-                                       :label (wiki-content-path newcontent)))
-                        (cons "content" (wiki-content-data-octets newcontent))))
+                  (list (cons "title"
+                              (neutralize-montezuma-input
+                               (wiki-path-to
+                                :label (wiki-content-path newcontent))))
+                        (cons "content"
+                              (neutralize-montezuma-input
+                               (wiki-content-data-string newcontent)))))
                  (parametrized-redirect
                   (wiki-content-path newcontent)
                   :action "rename"
@@ -703,8 +707,10 @@ by appending a related log message to the log records.")
            :type :initial)
           (montezuma:add-document-to-index
            *content-index*
-           (list (cons "title" (wiki-path-to :label (current-wiki-path)))
-                 (cons "content" data)))
+           (list (cons "title"
+                       (neutralize-montezuma-input
+                        (wiki-path-to :label (current-wiki-path))))
+                 (cons "content" (neutralize-montezuma-input data))))
           (parametrized-redirect (current-wiki-path) :is-fresh t))
         ;; Evaluate any preview request.
         (if prev
