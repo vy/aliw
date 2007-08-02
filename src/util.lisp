@@ -331,7 +331,7 @@ format."
     (cond
       ((< 0 tics 60)
        (format nil "~@(~d second~:p ago~)" tics))
-      ((< 0 (floor tics 60) 30)
+      ((< 0 (floor tics 60) 60)
        (format nil "~@(~d minute~:p ago~)" (floor tics 60)))
       ((< 0 (floor tics 3600) 24)
        (format nil "~@(~d hour~:p ago~)" (floor tics 3600)))
