@@ -187,8 +187,9 @@ function clearSearchInput() {
   "Display common warning messages passed to content pages via HTTP GET
 variables."
   (with-http-parameters (:default-request-type :get :default-parameter-type 'boolean)
-      (is-fresh already-signed-in signed-in isnt-signed-in signed-out edit-done
-      account-created)
+      ((oldpath :parameter-type 'string)
+       is-fresh already-signed-in signed-in isnt-signed-in signed-out edit-done
+       account-created renamed)
     (with-html ()
       ;; Welcome new user.
       (if account-created
@@ -259,7 +260,17 @@ variables."
             (:div :class "head" "Content Updated Succesfully!")
             (:div
              :class "body"
-             (:p "New content has been committed succesfully."))))))))
+             (:p "New content has been committed succesfully.")))))
+      ;; Have we just renamed current page?
+      (if renamed
+          (htm
+           (:div
+            :class "info-box"
+            (:div :class "head" "Page Renamed Successfully!")
+            (:div
+             :class "body"
+             (fmt "`~a' renamed to `~a' successfully."
+                  oldpath (wiki-path-to :label (current-wiki-path))))))))))
 
 (defun display-content-history (changes &key has-paths has-diff-form)
   "Common utility function to display history of a content."

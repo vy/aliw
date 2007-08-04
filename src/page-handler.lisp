@@ -644,12 +644,16 @@
                                 :label (wiki-content-path newcontent))))
                         (cons "content"
                               (neutralize-montezuma-input
-                               (wiki-content-data-string newcontent)))))
-                 (update-cache-of-referrers)
+                               ;; We need to force
+                               ;; WIKI-CONTENT-DATA-STRING to re-read
+                               ;; data from disk to overwrite
+                               ;; previously cached octet data by
+                               ;; WIKI-CONTENT-MOVE.
+                               (wiki-content-data-string newcontent :force t)))))
+                 (update-cache-of-referrers newcontent)
                  (parametrized-redirect
                   (wiki-content-path newcontent)
-                  :action "rename"
-                  :opres "done"
+                  :renamed t
                   :oldpath (wiki-path-to :label (current-wiki-path)))))))
         ;; Nothing special, display rename form.
         (with-html-template (:has-edit-bar t :content-action "Rename")
