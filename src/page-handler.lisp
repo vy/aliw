@@ -591,6 +591,20 @@
                   (:input :type "hidden" :name "revold" :value (str revold))
                   (:input :type "hidden" :name "revnew" :value (str revnew)))))))))))))
 
+(defun update-cache-of-referrers (&optional (content (current-wiki-content)))
+  "Update cache of the pages refering to CONTENT."
+  (mapc
+   #'(lambda (referrer)
+       (let* ((content (wiki-content-from :label referrer))
+              (data (wiki-content-data-string content)))
+         (commit-wiki-content
+          :content content
+          :dont-update-data t
+          :cache (markup-to-html data)
+          :overwrite t
+          :dont-update-changes-history t)))
+   (wiki-content-referrers content)))
+
 (defun page-rename ()
   "`rename' action handler for `page' type wiki paths."
   (with-restricted-access
@@ -631,6 +645,7 @@
                         (cons "content"
                               (neutralize-montezuma-input
                                (wiki-content-data-string newcontent)))))
+                 (update-cache-of-referrers)
                  (parametrized-redirect
                   (wiki-content-path newcontent)
                   :action "rename"
@@ -710,6 +725,7 @@ by appending a related log message to the log records.")
                        (neutralize-montezuma-input
                         (wiki-path-to :label (current-wiki-path))))
                  (cons "content" (neutralize-montezuma-input data))))
+          (update-cache-of-referrers)
           (parametrized-redirect (current-wiki-path) :is-fresh t))
         ;; Evaluate any preview request.
         (if prev

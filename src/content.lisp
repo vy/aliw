@@ -336,7 +336,7 @@ number."
 (defun commit-wiki-content
     (&key (content (current-wiki-content)) log data type overwrite cache
      (writer #'write-sequence) (element-type 'character)
-     dont-update-changes-history)
+     dont-update-data dont-update-changes-history)
   "Generic function to commit content data to disk.
 
 CONTENT will be committed to disk using supplied LOG, DATA and CACHE with
@@ -345,6 +345,9 @@ CACHE variables will be used during writing with specified WRITER.
 
 At every new commit, a new revision will be created, unless OVERWRITE is
 specified.
+
+If DONT-UPDATE-DATA is turned on, DATA of the specified CONTENT won't be
+updated.
 
 If DONT-UPDATE-CHANGES-HISTORY is supplied, changes history table won't get
 informed from the commit."
@@ -376,28 +379,27 @@ informed from the commit."
          (ensure-wiki-content-on-disk-layout content)
          (commit-component :meta (list :latest-revision 0))
          (setf (wiki-content-revision content) 0)))
-      ;; At last, commit data and log message.
-      (commit-component
-       :data data
-       :writer writer
-       :element-type element-type)
-      (commit-component
-       :log (list :timestamp (get-universal-time)
-                  :account (wiki-account-username (current-wiki-account))
-                  :message (or log
-                               ;; If we're overwriting an existing
-                               ;; content, it's ok to use its old log
-                               ;; message.
-                               (if overwrite
-                                   (getf (wiki-content-log content) :message)))
-                  :type type))
+      ;; Will we update content data?
+      (if (not dont-update-data)
+          (commit-component
+           :data data
+           :writer writer
+           :element-type element-type))
+      ;; If we're overwriting an existing content, there is no need to
+      ;; update log.
+      (if (not overwrite)
+          (commit-component
+           :log (list :timestamp (get-universal-time)
+                      :account (wiki-account-username (current-wiki-account))
+                      :message log
+                      :type type)))
       ;; If we received any cache data, write it down. Otherwise,
       ;; delete any on-disk cache file associated with this content.
       (if cache
           (commit-component :cache cache :writer writer :element-type element-type)
           (if (wiki-content-cache-exists-p content)
             (delete-file (wiki-content-pathname content :cache))))))
-  ;; Will be update the changes history table?
+  ;; Will we update the changes history table?
   (if (not dont-update-changes-history)
     (update-recently-changed-contents content)))
 
