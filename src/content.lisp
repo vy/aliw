@@ -262,18 +262,6 @@ number."
                seq
                (wiki-content-size content) size)))))
 
-(defmacro define-wiki-content-on-demand-data-reader (fn element-type)
-  "Shortcut to define DATA slot readers for different element types."
-  `(define-wiki-content-on-demand-slot-reader ,fn (content :data)
-     ,(format nil "(~:(~a~)) Reader function for DATA slot of WIKI-CONTENT class."
-              (symbol-name element-type))
-     (with-wiki-content-lock (content)
-       (multiple-value-bind (seq size)
-           (file-to-sequence (wiki-content-pathname content :data)
-                             :element-type ',element-type)
-         (setf (wiki-content-data content) seq
-               (wiki-content-size content) size)))))
-
 (defmacro define-wiki-content-on-demand-cache-reader (fn element-type)
   "Shortcut to define CACHE slot readers for different element types."
   `(define-wiki-content-on-demand-slot-reader ,fn (content :cache)
