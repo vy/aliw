@@ -93,8 +93,8 @@ preserving LINKS slot of the old and new attachments."
         (push (wiki-path-to :label path)
               (context-attachment-links attachment)))))
 
-(define-html-renderer external-link! (proto href text) (attachment)
-  (let ((href (format nil "~(~a~)://~a" (symbol-name proto) href)))
+(define-html-renderer external-link! (proto-prefix href text) (attachment)
+  (let ((href (format nil "~a~a" proto-prefix href)))
     (htm
      (:a :class "external"
          :href (escape-string-minimal href)
@@ -166,11 +166,9 @@ preserving LINKS slot of the old and new attachments."
   "]]"
   (:render internal-link! label text))
 
-(defrule external-link? (&aux proto href text) ()
+(defrule external-link? (&aux proto-prefix href text) ()
   "["
-  (:or (:and "http://" (:assign proto 'http))
-       (:and "https://" (:assign proto 'https))
-       (:and "ftp://" (:assign proto 'ftp)))
+  (:assign proto-prefix (:or "http://" "https://" "ftp://"))
   (:assign href (make-char-accum))
   (:+ (:not (:or "]" (:type space? newline?)))
       (:char-push href))
@@ -179,7 +177,7 @@ preserving LINKS slot of the old and new attachments."
       (:+ (:not "]")
           (:char-push text)))
   "]"
-  (:render external-link! proto href text))
+  (:render external-link! proto-prefix href text))
 
 (defmacro define-text-rule (fn element renderer)
   `(defrule ,fn (&aux text) ()
