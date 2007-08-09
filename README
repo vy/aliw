@@ -27,17 +27,18 @@ Besides its features you will experience during your visit,
    system,
  - Advanced editing, diff'ing (via cl-difflib), history viewing
    capabilities,
+ - Modular user interface structure through CSS,
  - Full-text search availability (via Montezuma)
 
 are some of the relatively major features supported by ALIW. (For a
 list of will-be-available-soon features, you may want to see TODO
 file.)
 
-You can find the latest ASDF-installable tarball of the ALIW at
+You can easily setup ALIW using latest ASDF-installable tarball[1].
+For more information and detailed documentation see ALIW homepage[2].
 
-  http://www.students.itu.edu.tr/~yazicivo/files/aliw.tar.gz
-
-address.
+  [1] http://www.students.itu.edu.tr/~yazicivo/files/aliw.tar.gz
+  [2] http://aliw.ce.itu.edu.tr/
 
 
  ,--------------.
@@ -73,11 +74,19 @@ concerns. (All of the parameters in the file are documented.)
  | STARTING/STOPPING SERVER |
  `--------------------------'
 
-To start/stop the web server that ALIW will run on, use START-SERVER
-and STOP-SERVER functions.
+To start/stop the web server that wiki will run on, you can use
+START-SERVER/STOP-SERVER functions coming with ALIW
+package. START-SERVER takes identical parameters with
+HUNCHENTOOT:START-SERVER[1].
 
-START-SERVER takes identical arguments to HUNCHENTOOT:START-SERVER.
-List of available arguments are:
+  [1] http://weitz.de/hunchentoot/#servers
+
+Pay attention that, you must use ALIW:START-SERVER and
+ALIW:STOP-SERVER to start/stop the wiki server, not
+HUNCHENTOOT:START-SERVER. Otherwise, required initialization steps
+will be totally skipped.
+
+START-SERVER parameters:
 
   (&key (port 80 port-provided-p)
         address
