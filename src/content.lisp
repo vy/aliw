@@ -380,7 +380,8 @@ informed from the commit."
            :log (list :timestamp (get-universal-time)
                       :account (wiki-account-username (current-wiki-account))
                       :message log
-                      :type type)))
+                      :type type
+                      :client (hunchentoot:server-addr))))
       ;; If we received any cache data, write it down. Otherwise,
       ;; delete any on-disk cache file associated with this content.
       (if cache

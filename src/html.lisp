@@ -338,7 +338,7 @@ function validateCheckedRevs()
               (mapc
                #'(lambda (change)
                    (destructuring-bind
-                         (&key path revision timestamp account type message) change
+                         (&key path revision timestamp account type message client) change
                      (htm
                       (:tr
                        :class (if (oddp (incf indice)) "odd" "even")
@@ -369,11 +369,13 @@ function validateCheckedRevs()
                                    (:a :class "internal"
                                        :href (wiki-path-to :uri path)
                                        (str (wiki-path-to :label path)))
-                                   (fmt " committed by ~a ~a."
+                                   (fmt " committed by ~a ~:[~;~:*(~a)~] ~a."
                                         (escape-string account)
+                                        client
                                         (universal-time-age timestamp)))
-                                  (fmt "Committed by ~a ~a."
+                                  (fmt "Committed by ~a ~:[~;~:*(~a)~] ~a."
                                        (escape-string account)
+                                       client
                                        (universal-time-age timestamp))))
                         (:div :class "message"
                               (if (< (length message) 2)
