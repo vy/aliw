@@ -1,3 +1,15 @@
+0.1.4
+	* src/page-handler.lisp (page-recent-changes-feed): Introduced new
+	RSS feed facility under RecentChanges/Feed page.
+	
+	* src/page-handler.lisp (update-cache-of-referrers): While
+	renaming or creating a content, update cache of the pages refering
+	to the content being about to renamed or created.
+
+	* src/content.lisp (with-wiki-content): Now we also record client
+	IP addresses in log files with CLIENT keyword.
+	DISPLAY-CONTENT-HISTORY in src/html.lisp is updated respectively.
+
 0.1.3
 	* src/wiki.lisp: Turn HUNCHENTOOT:*REWRITE-FOR-SESSION-URLS* off
 	to avoid it breaking links to anchors.
