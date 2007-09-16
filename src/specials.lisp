@@ -49,6 +49,7 @@
     :page-operation-not-found "OperationNotFound"
     :page-restricted-access   "RestrictedAccess"
     :page-recent-changes      "RecentChanges"
+    :page-recent-changes-feed "RecentChanges/Feed"
     :page-search              "Search"
     :account-create           "account:Create"
     :account-sign-in          "account:SignIn"
@@ -120,6 +121,15 @@ WIKI-PATH-FROM of :URI type.)")
 
 (defvar *content-index* nil
   "Instance holding indexed contents. \(Required for Montezuma.)")
+
+(defvar *rss-properties*
+  '(:title "RecentChanges @ ALIW"
+    :link "http://aliw.ce.itu.edu.tr/"
+    :description "A Lisp in Wonderland (a.k.a. ALIW) is a wiki software written
+in Common Lisp, to ease the collaboration on editable web pages."
+    :docs "http://blogs.law.harvard.edu/tech/rss"
+    :category ("Lisp" "Programming"))
+  "RSS properties will be used for building feeds.")
 
 (defconstant +buffer-size+ 8192
   "Will be used buffer size while raw reading/writing from/to streams.")

@@ -158,6 +158,8 @@ p {
 }
 
 #edit-bar td.info { font-style: oblique; font-size: 8pt; }
+#edit-bar td.rss-feed { text-align: center; }
+#edit-bar td.rss-feed a { font-size: 8pt; }
 #edit-bar td.actions { text-align: right; font-size: 8pt; }
 #edit-bar td.actions a.action { margin-left: 8px; font-size: 8pt; }
 

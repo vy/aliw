@@ -162,6 +162,10 @@ function clearSearchInput() {
               (universal-time-timestamp (getf log :timestamp))
               (getf log :account))))
       (:td
+       :class "rss-feed"
+       (:a :href (wiki-path-from-to :label "page:RecentChanges/Feed" :uri)
+           "RSS Feed"))
+      (:td
        :class "actions"
        (flet ((action-link (caption &rest params)
                 (htm

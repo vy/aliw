@@ -36,6 +36,7 @@
          page-operation-not-found
          page-restricted-access
          page-recent-changes
+         page-recent-changes-feed
          page-search)
       ;; This doesn't look like a special page. Handle it as an
       ;; action.
@@ -150,6 +151,64 @@
        *recently-changed-contents*)
       :has-paths t))))
 
+(defun page-recent-changes-feed ()
+  "`page:RecentChanges/Feed' wiki path handler."
+  (setf (hunchentoot:content-type) "text/xml;charset=utf-8")
+  (destructuring-bind
+        (&key title link description docs category)
+      *rss-properties*
+    (with-html ()
+      "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
+      "<rss version=\"2.0\">"
+      (:channel
+       (:title (esc title))
+       (:link (esc link))
+       (:description (esc description))
+       (:docs (esc docs))
+       (loop for cat in category do (htm (:category (str cat))))
+       (loop for content in *recently-changed-contents*
+             for path = (wiki-content-path content)
+             for log = (wiki-content-log content)
+             do (destructuring-bind
+                      (&key timestamp account type message client)
+                    log
+                  (declare (ignore client))
+                  (htm
+                   (:item
+                    (:link (esc (string-append link (wiki-path-to :uri path))))
+                    (:author (esc account))
+                    (fmt "<pubDate>~s</pubDate>"
+                         (universal-time-timestamp timestamp))
+                    (case type
+                      (:initial
+                       (htm
+                        (:title (fmt "[~a] Initial import."
+                                     (wiki-path-to :label path)))))
+                      (:rename (htm (:title (esc message))))
+                      (t
+                       (htm
+                        (:title
+                         (esc
+                          (format nil "~a: ~a~:[~;~:*~a~]"
+                                  (wiki-path-to :label path)
+                                  (if (> (length message) 50)
+                                      (subseq message 0 50)
+                                      message)
+                                  (and (> (length message) 50) "..."))))
+                        (:description
+                         (esc
+                          (format nil
+                                  (string-append
+                                   "<i>[Revision ~a of ~a is "
+                                   "committed by ~a at ~a. "
+                                   "Commit Type: ~a.]</i><br>~%~a")
+                                  (wiki-content-revision content)
+                                  (wiki-path-to :label path)
+                                  account
+                                  (universal-time-timestamp timestamp)
+                                  (if (eql type :minor) "Minor" "General")
+                                  message))))))))))))))
+                
 (defun page-search ()
   "`page:Search' wiki path handler."
   (with-http-parameters (:default-request-type :get)

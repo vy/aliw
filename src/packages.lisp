@@ -72,6 +72,7 @@
            :*account-locks-table-lock*
            :*content-transformation-rules*
            :*content-index*
+           :*rss-properties*
            :+buffer-size+
            :+namespace-uri+
            :+form-field-bounds+))
