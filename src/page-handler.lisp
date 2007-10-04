@@ -317,7 +317,8 @@
                          :plain plain
                          :content-action content-action)
       (str (display-common-content-warnings))
-      (str (if (wiki-content-cache-exists-p)
+      (str (if (and (= current-rev latest-rev)
+                    (wiki-content-cache-exists-p))
                ;; Display cached content.
                (wiki-content-cache-string (current-wiki-content))
                ;; Display raw data after markup transformation.
@@ -467,7 +468,7 @@
          (:div
           (:input :type "reset" :name "reset" :value "Reset Form")
           "&nbsp;"
-          (:input :type "submit" :name "editreq" :value "Submit Changes")))     
+          (:input :type "submit" :name "editreq" :value "Submit Changes")))
         (:div
          :style "margin-top: 32px"
          (:b "Plain view of the latest revision of the current wiki page.")
