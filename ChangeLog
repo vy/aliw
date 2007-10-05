@@ -1,3 +1,8 @@
+0.1.5
+	* src/page-handler.lisp (display-page-content): Fix a serious
+	caching flaw. (We were mistakenly displaying cached content of the
+	latest revision, even if client requests a different revision.)
+
 0.1.4
 	* src/page-handler.lisp (page-recent-changes-feed): Introduced new
 	RSS feed facility under RecentChanges/Feed page.
