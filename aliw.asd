@@ -33,7 +33,7 @@
 
 (in-package :aliw-asd)
 
-(defconstant +aliw-version+ "0.1.5")
+(defparameter +aliw-version+ "0.1.5")
 
 (export '+aliw-version+)
 
