@@ -30,20 +30,20 @@ are some of the relatively major features supported by ALIW.
 
 Before proceding to the next steps, you first need to ASDF-install ALIW tarball.
 
-  CL-USER> (asdf-install:install :aliw)
+    CL-USER> (asdf-install:install :aliw)
 
 or use the full path of the tarball.
 
-  CL-USER> (asdf-install:install "/path/to/aliw.tar.gz")
+    CL-USER> (asdf-install:install "/path/to/aliw.tar.gz")
 
 After installing ALIW tarball successfully, you need to configure some of runtime parameters that act specific to each installation. For this purpose, you need to edit `specials.lisp' file coming with the ALIW tarball.
 
 Besides optional ones, the parameters that you _must_ configure are
 
-  *CONTENT-DIRECTORY*
-  *CONTENT-INDEX-DIRECTORY*
-  *STATIC-FILES-DIRECTORY*
-  *ACCOUNTS-DIRECTORY*
+    *CONTENT-DIRECTORY*
+    *CONTENT-INDEX-DIRECTORY*
+    *STATIC-FILES-DIRECTORY*
+    *ACCOUNTS-DIRECTORY*
 
 After that, you can edit `specials.lisp` as you wish through your concerns. (All of the parameters in the file are documented.)
 
@@ -55,19 +55,19 @@ Pay attention that, you must use `ALIW:START-SERVER` and `ALIW:STOP-SERVER` to s
 
 `START-SERVER` parameters:
 
-  (&key (port 80 port-provided-p)
-        address
-        dispatch-table
-        (name (gensym))
-        (mod-lisp-p nil)
-        (use-apache-log-p mod-lisp-p)
-        (input-chunking-p t)
-        (read-timeout *default-read-timeout*)
-        (write-timeout *default-write-timeout*)
-        #+(and :unix (not :win32)) setuid
-        #+(and :unix (not :win32)) setgid
-        #-:hunchentoot-no-ssl ssl-certificate-file
-        #-:hunchentoot-no-ssl (ssl-privatekey-file ssl-certificate-file)
-        #-:hunchentoot-no-ssl ssl-privatekey-password)
+    (&key (port 80 port-provided-p)
+          address
+          dispatch-table
+          (name (gensym))
+          (mod-lisp-p nil)
+          (use-apache-log-p mod-lisp-p)
+          (input-chunking-p t)
+          (read-timeout *default-read-timeout*)
+          (write-timeout *default-write-timeout*)
+          #+(and :unix (not :win32)) setuid
+          #+(and :unix (not :win32)) setgid
+          #-:hunchentoot-no-ssl ssl-certificate-file
+          #-:hunchentoot-no-ssl (ssl-privatekey-file ssl-certificate-file)
+          #-:hunchentoot-no-ssl ssl-privatekey-password)
 
 To stop the server, just call `STOP-SERVER`. (`STOP-SERVER` takes no arguments.)
