@@ -10,43 +10,25 @@
             __,,-    ,-~^'   `
   ..-'^'-'^^     `'^'
 
- ,----------.
- | OVERVIEW |
- `----------'
+# Overview
 
-A Lisp in Wonderland (a.k.a `ALIW') is a wiki software written in
-Common Lisp, to easy the collaboration on editable web pages.
+A Lisp in Wonderland (aka. ALIW) is a wiki software written in Common Lisp, to ease the collaboration on editable web pages.
 
 Besides its features you will experience during your visit,
 
- - Extensible markup language (via meta-sexp),
- - Content caching to reduce markup transformation overhead,
- - Open to further development via flexible interface of Hunchentoot
-   web server,
- - Plain file based - thus platform independent - version control
-   system,
- - Advanced editing, diff'ing (via cl-difflib), history viewing
-   capabilities,
- - Modular user interface structure through CSS,
- - Full-text search availability (via Montezuma)
+- Extensible markup language (via meta-sexp),
+- Content caching to reduce markup transformation overhead,
+- Open to further development via flexible interface of Hunchentoot web server,
+- Plain file based - thus platform independent - version control system,
+- Advanced editing, diff'ing (via cl-difflib), history viewing capabilities,
+- Modular user interface structure through CSS,
+- Full-text search availability (via Montezuma)
 
-are some of the relatively major features supported by ALIW. (For a
-list of will-be-available-soon features, you may want to see TODO
-file.)
+are some of the relatively major features supported by ALIW.
 
-You can easily setup ALIW using latest ASDF-installable tarball[1].
-For more information and detailed documentation see ALIW homepage[2].
+# Installation
 
-  [1] http://www.students.itu.edu.tr/~yazicivo/files/aliw.tar.gz
-  [2] http://aliw.ce.itu.edu.tr/
-
-
- ,--------------.
- | INSTALLATION |
- `--------------'
-
-Before proceding to the next steps, you first need to ASDF-install
-ALIW tarball.
+Before proceding to the next steps, you first need to ASDF-install ALIW tarball.
 
   CL-USER> (asdf-install:install :aliw)
 
@@ -54,10 +36,7 @@ or use the full path of the tarball.
 
   CL-USER> (asdf-install:install "/path/to/aliw.tar.gz")
 
-After installing ALIW tarball successfully, you need to configure some
-of runtime parameters that act specific to each installation. For this
-purpose, you need to edit `specials.lisp' file coming with the ALIW
-tarball.
+After installing ALIW tarball successfully, you need to configure some of runtime parameters that act specific to each installation. For this purpose, you need to edit `specials.lisp' file coming with the ALIW tarball.
 
 Besides optional ones, the parameters that you _must_ configure are
 
@@ -66,27 +45,15 @@ Besides optional ones, the parameters that you _must_ configure are
   *STATIC-FILES-DIRECTORY*
   *ACCOUNTS-DIRECTORY*
 
-After that, you can edit `specials.lisp' as you wish through your
-concerns. (All of the parameters in the file are documented.)
+After that, you can edit `specials.lisp` as you wish through your concerns. (All of the parameters in the file are documented.)
 
+# Starting/Stopping Server
 
- ,--------------------------.
- | STARTING/STOPPING SERVER |
- `--------------------------'
+To start/stop the web server that wiki will run on, you can use `START-SERVER`/`STOP-SERVER` functions coming with `ALIW` package. `START-SERVER` takes identical parameters with [`HUNCHENTOOT:START-SERVER`](http://weitz.de/hunchentoot/#servers).
 
-To start/stop the web server that wiki will run on, you can use
-START-SERVER/STOP-SERVER functions coming with ALIW
-package. START-SERVER takes identical parameters with
-HUNCHENTOOT:START-SERVER[1].
+Pay attention that, you must use `ALIW:START-SERVER` and `ALIW:STOP-SERVER` to start/stop the wiki server, not `HUNCHENTOOT:START-SERVER`. Otherwise, required initialization steps will be totally skipped.
 
-  [1] http://weitz.de/hunchentoot/#servers
-
-Pay attention that, you must use ALIW:START-SERVER and
-ALIW:STOP-SERVER to start/stop the wiki server, not
-HUNCHENTOOT:START-SERVER. Otherwise, required initialization steps
-will be totally skipped.
-
-START-SERVER parameters:
+`START-SERVER` parameters:
 
   (&key (port 80 port-provided-p)
         address
@@ -103,5 +70,4 @@ START-SERVER parameters:
         #-:hunchentoot-no-ssl (ssl-privatekey-file ssl-certificate-file)
         #-:hunchentoot-no-ssl ssl-privatekey-password)
 
-To stop the server, just call STOP-SERVER. (STOP-SERVER takes no
-arguments.)
+To stop the server, just call `STOP-SERVER`. (`STOP-SERVER` takes no arguments.)
